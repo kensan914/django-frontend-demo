@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load list_tags %}
+
+{% block title %}
+  メール一覧管理
+{% endblock title %}
+
+{% block content %}
+  <h1>メール一覧管理</h1>
+  <form method="get">
+    {% comment %}NOTE: ラベルとエラーを表示させないために `.q` を直接指定{% endcomment %}
+    {{ search_form.q }}
+    <button type="submit">検索する</button>
+  </form>
+  <a href="{% url 'mail:new' %}">新規作成</a>
+  <h3>送信済メール</h3>
+  <table class="table table-striped">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">メール種別</th>
+        <th scope="col">{% sort_header "title" "メール件名" %}</th>
+        <th scope="col">{% sort_header "sent_at" "送信日時" %}</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mail in mails %}
+        <tr>
+          <td>{{ mail.type }}</td>
+          <td>{{ mail.title }}</td>
+          <td>{{ mail.sent_at }}</td>
+          <td>
+            <a href="{% url 'mail:detail' mail.id %}">確認</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  {% include "components/pagination_footer.html" with class_name="" %}
+{% endblock content %}

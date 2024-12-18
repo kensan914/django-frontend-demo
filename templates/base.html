@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+{% load django_bootstrap5 %}
+{% load static %}
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+
+      {% block title %}
+      {% endblock title %}
+
+    </title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <script src="{% static 'js/global.js' %}" defer></script>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {% block extra_head %}
+    {% endblock extra_head %}
+
+  </head>
+  <body>
+
+    {% block header %}
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">管理画面</a>
+        </div>
+      </nav>
+    {% endblock header %}
+
+    <div id="content" class="p-4">
+
+      {% block content %}
+      {% endblock content %}
+
+    </div>
+  </body>
+</html>

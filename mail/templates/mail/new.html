@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+
+{% block title %}
+  メール作成管理
+{% endblock title %}
+
+{% block content %}
+  <h1>メール作成管理</h1>
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="OK" %}
+    <input type="button" onclick="history.back()" value="戻る">
+  </form>
+{% endblock content %}

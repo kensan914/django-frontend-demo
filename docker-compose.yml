@@ -1,0 +1,21 @@
+services:
+  django-frontend-demo:
+    container_name: django_frontend_demo
+    ports:
+      - "8888:8888"
+    build:
+      context: .
+      dockerfile: .docker/django_frontend_demo/Dockerfile
+    image: django-frontend-demo:latest
+    user: root
+    volumes:
+      - .:/var/www/django_frontend_demo
+      - /dev/null:/var/www/django_frontend_demo/poetry.toml
+    command: bash -c "python manage.py runserver 0.0.0.0:8888"
+    pull_policy: never
+#    networks:
+#      - django_frontend_demo
+
+#networks:
+#  django_frontend_demo:
+#    external: true
