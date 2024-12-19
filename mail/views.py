@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
@@ -65,4 +66,5 @@ class NewView(FormView):
                 return super().form_invalid(form)
             handle_general_error(api_result)
 
+        messages.success(self.request, "登録内容を保存しました。")
         return super().form_valid(form)
