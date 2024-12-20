@@ -18,13 +18,14 @@
     <script src="{% static 'js/global.js' %}" defer></script>
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    {% component_css_dependencies %}
 
     {% block extra_head %}
     {% endblock extra_head %}
 
   </head>
   <body>
-    {% include "components/toast_messages.html" %}
+    {% component "toast_messages" messages=messages %}{% endcomponent %}
 
     {% block header %}
       <nav class="navbar bg-body-tertiary">
@@ -40,5 +41,6 @@
       {% endblock content %}
 
     </div>
+    {% component_js_dependencies %}
   </body>
 </html>

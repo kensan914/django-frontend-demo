@@ -1,15 +1,17 @@
 import os
+import secrets
 from pathlib import Path
 
 import environ
+from django_components import ComponentsSettings
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
-SECRET_KEY = env("SECRET_KEY")
-DEBUG = env.bool("DEBUG")
-ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
+SECRET_KEY = env("SECRET_KEY", default=secrets.token_hex(100))
+DEBUG = env.bool("DEBUG", default=True)
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -19,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
+    "django_components",
     "common",
     "mail",
 ]
@@ -31,6 +34,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_components.middleware.ComponentDependencyMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -39,13 +43,25 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+            ],
+            "loaders": [
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        "django.template.loaders.filesystem.Loader",
+                        "django.template.loaders.app_directories.Loader",
+                        "django_components.template_loader.Loader",
+                    ],
+                )
+            ],
+            "builtins": [
+                "django_components.templatetags.component_tags",
             ],
         },
     },
@@ -82,5 +98,14 @@ USE_TZ = True
 
 STATICFILES_DIRS = (BASE_DIR / "static",)
 STATIC_URL = "static/"
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django_components.finders.ComponentsFileSystemFinder",
+]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+COMPONENTS = ComponentsSettings(
+    dirs=[BASE_DIR / "components"],
+)

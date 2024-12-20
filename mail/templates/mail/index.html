@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% load list_tags %}
-
 {% block title %}
   メール一覧管理
 {% endblock title %}
@@ -19,8 +17,8 @@
     <thead class="table-light">
       <tr>
         <th scope="col">メール種別</th>
-        <th scope="col">{% sort_header "title" "メール件名" %}</th>
-        <th scope="col">{% sort_header "sent_at" "送信日時" %}</th>
+        <th scope="col">{% component "sort_header" key="title" label="メール件名" sort_state=sort_state %}{% endcomponent %}</th>
+        <th scope="col">{% component "sort_header" key="sent_at" label="送信日時" sort_state=sort_state %}{% endcomponent %}</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -38,5 +36,5 @@
     </tbody>
   </table>
   <br>
-  {% include "components/pagination_footer.html" with class_name="" %}
+  {% component "pagination" pagination_state=pagination_state %}{% endcomponent %}
 {% endblock content %}

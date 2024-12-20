@@ -15,6 +15,27 @@ files = [
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.12.3"
+description = "Screen-scraping library"
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "beautifulsoup4-4.12.3-py3-none-any.whl", hash = "sha256:b80878c9f40111313e55da8ba20bdba06d8fa3969fc68304167741bbf9e082ed"},
+    {file = "beautifulsoup4-4.12.3.tar.gz", hash = "sha256:74e3d1928edc070d21748185c46e3fb33490f22f52a3addee9aee0f4f7781051"},
+]
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+cchardet = ["cchardet"]
+chardet = ["chardet"]
+charset-normalizer = ["charset-normalizer"]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "black"
 version = "24.10.0"
 description = "The uncompromising code formatter."
@@ -259,6 +280,21 @@ Django = ">=4.2"
 
 [package.extras]
 jinja = ["Jinja2 (>=3.0,<4)"]
+
+[[package]]
+name = "django-components"
+version = "0.122"
+description = "A way to create simple reusable template components in Django."
+optional = false
+python-versions = "<4.0,>=3.8"
+files = [
+    {file = "django_components-0.122-py3-none-any.whl", hash = "sha256:9d882e37b0dd38da09a0a889383520b1c2f06815c1ff406f746e681c3afcb0e9"},
+    {file = "django_components-0.122.tar.gz", hash = "sha256:a2d82b3092924fe855ab157af5215bb1170ee10a5ed74097de6aa16598d774d2"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.12"
+Django = ">=4.2"
 
 [[package]]
 name = "django-environ"
@@ -715,6 +751,17 @@ files = [
 ]
 
 [[package]]
+name = "soupsieve"
+version = "2.6"
+description = "A modern CSS selector implementation for Beautiful Soup."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "soupsieve-2.6-py3-none-any.whl", hash = "sha256:e72c4ff06e4fb6e4b5a9f0f55fe6e81514581fca1515028625d0f299c602ccc9"},
+    {file = "soupsieve-2.6.tar.gz", hash = "sha256:e2e68417777af359ec65daac1057404a3c8a5455bb8abc36f1a9866ab1a51abb"},
+]
+
+[[package]]
 name = "sqlparse"
 version = "0.5.2"
 description = "A non-validating SQL parser."
@@ -781,4 +828,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "3c88affdb13c1902c381004079648562df6b115f75ad34f884381140de5c32f2"
+content-hash = "76a588c84adb3c9ea4b3bfec843f81a39fbab227fa07c6eca3e6264142cd942c"

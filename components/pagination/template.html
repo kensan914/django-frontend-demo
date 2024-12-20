@@ -1,7 +1,7 @@
-<div class="pagination {{ class_name }}">
+<div class="pagination">
   <span class="step-links">
     {% if pagination_state.has_previous %}
-      <a href="{{ pagination_state.first_page_href }}">« 最初へ</a>
+      <a href="{{ pagination_state.first_page_href }}">« 最初へ!</a>
       <a href="{{ pagination_state.previous_page_href }}">前へ</a>
     {% endif %}
     <span class="current">{{ pagination_state.current_page }}/{{ pagination_state.total_pages }}</span>

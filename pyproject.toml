@@ -11,6 +11,7 @@ django = "4.2.*"
 requests = "^2.32.3"
 django-bootstrap5 = "^24.3"
 django-environ = "^0.11.2"
+django-components = "^0.122"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
