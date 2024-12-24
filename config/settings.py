@@ -1,4 +1,3 @@
-import os
 import secrets
 from pathlib import Path
 
@@ -8,7 +7,7 @@ from django_components import ComponentsSettings
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+environ.Env.read_env(BASE_DIR / ".env")
 SECRET_KEY = env("SECRET_KEY", default=secrets.token_hex(100))
 DEBUG = env.bool("DEBUG", default=True)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])

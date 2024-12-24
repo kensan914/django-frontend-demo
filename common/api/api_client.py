@@ -14,6 +14,7 @@ class ApiClient:
     """
 
     BASE_URL = settings.env("API_BASE_URL")
+    TIMEOUT = 10  # seconds
 
     @responses.activate  # WARNING: モック
     def get_mails(
@@ -28,13 +29,48 @@ class ApiClient:
             status=200,
             json={
                 "mails": [
-                    {"id": "1", "type": "メールA", "title": "タイトル1", "sent_at": "2021/01/01"},
-                    {"id": "2", "type": "メールA", "title": "タイトル2", "sent_at": "2021/01/02"},
-                    {"id": "3", "type": "メールC", "title": "タイトル3", "sent_at": "2021/01/03"},
-                    {"id": "4", "type": "メールB", "title": "タイトル4", "sent_at": "2021/01/04"},
-                    {"id": "5", "type": "メールA", "title": "タイトル5", "sent_at": "2021/01/05"},
-                    {"id": "6", "type": "メールB", "title": "タイトル6", "sent_at": "2021/01/06"},
-                    {"id": "7", "type": "メールA", "title": "タイトル7", "sent_at": "2021/01/07"},
+                    {
+                        "id": "1",
+                        "type": "メールA",
+                        "title": "タイトル1",
+                        "sent_at": "2021/01/01",
+                    },
+                    {
+                        "id": "2",
+                        "type": "メールA",
+                        "title": "タイトル2",
+                        "sent_at": "2021/01/02",
+                    },
+                    {
+                        "id": "3",
+                        "type": "メールC",
+                        "title": "タイトル3",
+                        "sent_at": "2021/01/03",
+                    },
+                    {
+                        "id": "4",
+                        "type": "メールB",
+                        "title": "タイトル4",
+                        "sent_at": "2021/01/04",
+                    },
+                    {
+                        "id": "5",
+                        "type": "メールA",
+                        "title": "タイトル5",
+                        "sent_at": "2021/01/05",
+                    },
+                    {
+                        "id": "6",
+                        "type": "メールB",
+                        "title": "タイトル6",
+                        "sent_at": "2021/01/06",
+                    },
+                    {
+                        "id": "7",
+                        "type": "メールA",
+                        "title": "タイトル7",
+                        "sent_at": "2021/01/07",
+                    },
                 ],
                 "pagination": {
                     "current_page": int(page or 1),
@@ -60,7 +96,9 @@ class ApiClient:
             params["sort"] = sort
         if page is not None:
             params["page"] = page
-        response = requests.get(urljoin(self.BASE_URL, "/mails/"), params=params)
+        response = requests.get(
+            urljoin(self.BASE_URL, "/mails/"), params=params, timeout=self.TIMEOUT
+        )
         return ApiResult(response)
 
     @responses.activate  # WARNING: モック
@@ -69,7 +107,14 @@ class ApiClient:
         responses.get(
             f"{self.BASE_URL}/mails/1/",
             status=200,
-            json={"mail": {"id": "1", "type": "メールA---", "title": "タイトル1", "sent_at": "2021/01/01"}},
+            json={
+                "mail": {
+                    "id": "1",
+                    "type": "メールA---",
+                    "title": "タイトル1",
+                    "sent_at": "2021/01/01",
+                },
+            },
         )
         # responses.get(
         #     f"{self.BASE_URL}/mails/1/",
@@ -87,7 +132,9 @@ class ApiClient:
         #     json={"error": {"message": "処理が失敗しました"}},
         # )
 
-        response = requests.get(urljoin(self.BASE_URL, f"/mails/{mail_id}/"))
+        response = requests.get(
+            urljoin(self.BASE_URL, f"/mails/{mail_id}/"), timeout=self.TIMEOUT
+        )
         return ApiResult(response)
 
     @responses.activate  # WARNING: モック
@@ -108,8 +155,14 @@ class ApiClient:
                         "フィールド以外のエラーメッセージです1",
                         "フィールド以外のエラーメッセージです2",
                     ],
-                    "type": ["メール種別のエラーメッセージです1", "メール種別のエラーメッセージです2"],
-                    "title": ["メール件名のエラーメッセージです1", "メール件名のエラーメッセージです2"],
+                    "type": [
+                        "メール種別のエラーメッセージです1",
+                        "メール種別のエラーメッセージです2",
+                    ],
+                    "title": [
+                        "メール件名のエラーメッセージです1",
+                        "メール件名のエラーメッセージです2",
+                    ],
                     "text": ["メール本文のエラーメッセージです"],
                 },
             },
@@ -118,5 +171,6 @@ class ApiClient:
         response = requests.post(
             urljoin(self.BASE_URL, "/mails/"),
             data={"type": type_, "title": title, "text": text},
+            timeout=self.TIMEOUT,
         )
         return ApiResult(response)

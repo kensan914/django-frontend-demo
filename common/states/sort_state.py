@@ -19,7 +19,9 @@ class SortState:
 
         if self.is_sorting_by(sort_key):
             # NOTE: すでに該当の sort_key でソートされている場合は、ソート順を逆にする
-            current_query_dict["sort"] = sort_key if self.is_desc else f"{self.DESC_SIGN}{sort_key}"
+            current_query_dict["sort"] = (
+                sort_key if self.is_desc else f"{self.DESC_SIGN}{sort_key}"
+            )
         else:
             # NOTE: それ以外の場合は、初期状態の降順でソートする
             current_query_dict["sort"] = f"{self.DESC_SIGN}{sort_key}"
@@ -38,7 +40,9 @@ class SortState:
 
     @property
     def _current_sort_key(self) -> str:
-        return self._current_sort_query[1:] if self.is_desc else self._current_sort_query
+        return (
+            self._current_sort_query[1:] if self.is_desc else self._current_sort_query
+        )
 
     @property
     def _current_sort_query(self) -> str:

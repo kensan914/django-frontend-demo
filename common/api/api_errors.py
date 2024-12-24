@@ -1,8 +1,7 @@
 import dataclasses
 from abc import ABCMeta
-from typing import TypeAlias
 
-ApiErrorType: TypeAlias = "ApiGeneralError | ApiValidationError"
+type ApiErrorType = "ApiGeneralError | ApiValidationError"
 
 
 def api_error_factory(response_data: dict) -> ApiErrorType:
@@ -43,8 +42,13 @@ class ApiGeneralError(BaseApiError):
     is_general = True
 
     def __post_init__(self) -> None:
-        if not ("error" in self.response_data and "message" in self.response_data["error"]):
-            raise ValueError(f"General エラーの JSON schema が正しくありません: {self.response_data}")
+        if not (
+            "error" in self.response_data and "message" in self.response_data["error"]
+        ):
+            msg = (
+                f"General エラーの JSON schema が正しくありません: {self.response_data}"
+            )
+            raise ValueError(msg)
 
     @property
     def message(self) -> str:
@@ -69,8 +73,11 @@ class ApiValidationError(BaseApiError):
     NON_FIELD_ERRORS_KEY = "non_field_error"
 
     def __post_init__(self) -> None:
-        if not (self.response_data.get("validation") and "errors" in self.response_data):
-            raise ValueError(f"Validation エラーの JSON schema が正しくありません: {self.response_data}")
+        if not (
+            self.response_data.get("validation") and "errors" in self.response_data
+        ):
+            msg = f"Validation エラーの JSON schema が正しくありません: {self.response_data}"
+            raise ValueError(msg)
 
     @property
     def non_field_error_messages(self) -> list[str]:

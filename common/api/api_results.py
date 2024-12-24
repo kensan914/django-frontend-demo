@@ -16,10 +16,11 @@ class ApiResult:
     response: requests.Response
 
     def __post_init__(self) -> None:
-        is_2xx = 200 <= self.response.status_code < 300
+        is_2xx = 200 <= self.response.status_code < 300  # noqa: PLR2004
         # NOTE: requests.Response の ok プロパティは 1xx,3xx でも True 判定となるため、その場合は予期せぬ例外扱いとする
         if self.response.ok and not is_2xx:
-            raise Exception(f"unexpected error: {self.response.status_code}")
+            msg = f"unexpected error: {self.response.status_code}"
+            raise Exception(msg)
 
     @cached_property
     def error(self) -> "ApiErrorType | None":

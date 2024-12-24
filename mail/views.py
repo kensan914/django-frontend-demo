@@ -32,7 +32,10 @@ class IndexView(BaseViewMixin, TemplateView):
         context["search_form"] = search_form
         context["mails"] = api_result.response_data["mails"]
         context["sort_state"] = SortState(self.request)
-        context["pagination_state"] = PaginationState(api_result.response_data["pagination"], request=self.request)
+        context["pagination_state"] = PaginationState(
+            api_result.response_data["pagination"],
+            request=self.request,
+        )
         return context
 
 

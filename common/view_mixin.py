@@ -26,14 +26,17 @@ class BaseViewMixin:
             if api_result.is_403:
                 # NOTE: templates/403.html をレンダリング
                 raise PermissionDenied(api_result.error.response_data)
-            elif api_result.is_404:
+            if api_result.is_404:
                 # NOTE: templates/404.html をレンダリング
                 raise Http404(api_result.error.response_data)
-            else:
-                # NOTE: templates/500.html をレンダリング
-                raise Exception(api_result.error.response_data)
+            # NOTE: templates/500.html をレンダリング
+            raise Exception(api_result.error.response_data)
 
-    def add_api_validation_error(self, form: Form, api_validation_error: ApiValidationError) -> Form:
+    def add_api_validation_error(
+        self,
+        form: Form,
+        api_validation_error: ApiValidationError,
+    ) -> Form:
         """引数で受け取った form インスタンスに対して、API のバリデーションエラーを `add_error` で追加する
         これにより、API から渡されたバリデーションエラーメッセージをフォームに表示できる
         """
@@ -41,7 +44,10 @@ class BaseViewMixin:
         for error_message in api_validation_error.non_field_error_messages:
             form.add_error(None, error_message)
 
-        for field_name, error_messages in api_validation_error.field_error_messages_dict.items():
+        for (
+            field_name,
+            error_messages,
+        ) in api_validation_error.field_error_messages_dict.items():
             for error_message in error_messages:
                 form.add_error(field_name, error_message)
 
