@@ -4,6 +4,9 @@ from django.urls import include, path
 
 urlpatterns = [
     path("mails/", include("mail.urls")),
+    path("", include("user.urls")),
+    path("", include("login.urls")),
+    path("", include("top.urls")),
     path("", include("django_components.urls")),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
 ]
