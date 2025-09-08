@@ -32,6 +32,15 @@
         <div class="container-fluid">
           <a class="navbar-brand" href="#">管理画面</a>
         </div>
+        {% if session.user %}
+          <div class="container-fluid">
+            <p>{{ session.user.name }}（{{ session.user.type }}）</p>
+          </div>
+          <form action="{% url 'login:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-danger">ログアウト</button>
+          </form>
+        {% endif %}
       </nav>
     {% endblock header %}
 

@@ -23,6 +23,9 @@ INSTALLED_APPS = [
     "django_components",
     "common",
     "mail",
+    "user",
+    "login",
+    "top",
 ]
 
 MIDDLEWARE = [
@@ -34,6 +37,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_components.middleware.ComponentDependencyMiddleware",
+    "common.middleware.RedirectToLoginMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -108,3 +112,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 COMPONENTS = ComponentsSettings(
     dirs=[BASE_DIR / "components"],
 )
+
+LOGIN_URL = "login:login"

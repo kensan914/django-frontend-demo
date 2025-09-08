@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock title %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  <table class="table table-striped">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">メールアドレス</th>
+        <th scope="col">パスワード</th>
+        <th scope="col">名前</th>
+        <th scope="col">type</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.password }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.type }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+{% endblock content %}
